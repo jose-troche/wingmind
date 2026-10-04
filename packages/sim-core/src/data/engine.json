@@ -1,0 +1,20 @@
+{
+  "_note": "Illustrative generic afterburning turbofan, per engine. Not representative of any real engine.",
+  "mach": [0, 0.4, 0.8, 1.2, 1.6, 2.0],
+  "milThrustN": [80000, 78000, 84000, 95000, 100000, 96000],
+  "abThrustN": [125000, 128000, 140000, 160000, 175000, 178000],
+  "lapseExp": 0.75,
+  "idleFrac": 0.05,
+  "milThrottle": 0.85,
+  "tsfcDry": 0.78,
+  "tsfcAb": 1.95,
+  "idleFlowPph": 900,
+  "spoolTauS": 1.1,
+  "n2Idle": 62,
+  "n2Mil": 98,
+  "n1Idle": 40,
+  "n1Mil": 96,
+  "titIdleC": 480,
+  "titMilC": 910,
+  "titAbC": 960
+}
