@@ -1,0 +1,38 @@
+{
+  "id": "bvr-05",
+  "title": "Beyond-visual-range defense",
+  "ladder": 5,
+  "description": "Two bandits commit from the east and launch radar missiles. Defend: beam, chaff, radar silent, and keep the picture with the early-warning datalink.",
+  "theater": {
+    "terrain": {
+      "id": "plains-05",
+      "seed": 505,
+      "bounds": [-30000, -60000, 150000, 60000],
+      "spacingM": 256,
+      "baseM": 500,
+      "roughnessM": 220,
+      "features": [{ "type": "hill", "at": [60000, -30000], "heightM": 1200, "radiusM": 8000 }]
+    },
+    "origin": [36.0, -115.5],
+    "towers": [],
+    "homePlate": [0, 0]
+  },
+  "weather": {
+    "isaDeltaC": -5,
+    "wind": [
+      { "altFt": 0, "dirDeg": 300, "kt": 12 },
+      { "altFt": 25000, "dirDeg": 290, "kt": 70 }
+    ],
+    "gustKt": 2,
+    "clouds": [{ "baseFt": 18000, "topFt": 21000, "cover": 0.3 }],
+    "visibilityKm": 60,
+    "cells": []
+  },
+  "own": { "fuelLb": 16000, "pos": [0, 0], "altFt": 25000, "headingDeg": 90, "kcas": 380, "cm": { "chaff": 60, "flares": 60, "decoys": 4 } },
+  "route": [[60000, 0, 25000], [110000, 10000, 25000]],
+  "red": [{ "id": "bandit", "type": "fighter_gen4", "count": 2, "cap": [95000, 5000, 28000], "skill": 0.7, "active": true }],
+  "friendly": [{ "type": "awacs", "latencyS": 1.5 }],
+  "triggers": [{ "at": { "t": 20 }, "do": "commit", "target": "bandit" }],
+  "objectives": ["survive", "rtb_above_bingo"],
+  "settings": { "falseAlarmPerMin": 0.05, "gcasAuto": true, "durationS": 900 }
+}

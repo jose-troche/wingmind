@@ -1,0 +1,43 @@
+{
+  "id": "fam-01",
+  "title": "Familiarization",
+  "ladder": 1,
+  "description": "Flight, weather and fuel management with no threats. Fly the four-point route, go around the thunderstorm on the second leg and watch the left engine.",
+  "theater": {
+    "terrain": {
+      "id": "hills-01",
+      "seed": 101,
+      "bounds": [-50000, -20000, 60000, 80000],
+      "spacingM": 128,
+      "baseM": 350,
+      "roughnessM": 260,
+      "features": [
+        { "type": "ridge", "from": [-40000, 30000], "to": [10000, 72000], "heightM": 800, "widthM": 4000 },
+        { "type": "hill", "at": [25000, 20000], "heightM": 900, "radiusM": 5000 },
+        { "type": "valley", "from": [-45000, 5000], "to": [50000, 15000], "heightM": 150, "widthM": 3000 }
+      ]
+    },
+    "origin": [36.2, -115.9],
+    "towers": [],
+    "homePlate": [0, 0]
+  },
+  "weather": {
+    "isaDeltaC": 5,
+    "wind": [
+      { "altFt": 0, "dirDeg": 240, "kt": 8 },
+      { "altFt": 10000, "dirDeg": 260, "kt": 25 },
+      { "altFt": 30000, "dirDeg": 270, "kt": 60 }
+    ],
+    "gustKt": 4,
+    "clouds": [{ "baseFt": 8000, "topFt": 12000, "cover": 0.5 }],
+    "visibilityKm": 40,
+    "cells": [{ "pos": [-5000, 56000], "radiusM": 5000, "topFt": 42000 }]
+  },
+  "own": { "fuelLb": 14000, "pos": [0, 0], "altFt": 15000, "headingDeg": 300, "kcas": 420, "cm": { "chaff": 60, "flares": 60, "decoys": 4 } },
+  "route": [[-30000, 17320, 15000], [-20000, 60000, 15000], [35000, 50000, 15000], [3000, 3000, 8000]],
+  "red": [],
+  "friendly": [],
+  "triggers": [{ "at": { "t": 300 }, "do": "fault", "target": "engine_left", "kind": "oil_pressure" }],
+  "objectives": ["fly_route", "rtb_above_bingo"],
+  "settings": { "falseAlarmPerMin": 0, "gcasAuto": true, "durationS": 1200 }
+}

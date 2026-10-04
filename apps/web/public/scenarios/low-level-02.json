@@ -1,0 +1,46 @@
+{
+  "id": "low-level-02",
+  "title": "Low level",
+  "ladder": 2,
+  "description": "Valley route at 500 feet with towers along the floor and a rising hill at the north end. Ground-collision protection is on; let it fly the recovery.",
+  "theater": {
+    "terrain": {
+      "id": "valley-02",
+      "seed": 202,
+      "bounds": [-15000, -12000, 15000, 62000],
+      "spacingM": 64,
+      "baseM": 110,
+      "roughnessM": 20,
+      "features": [
+        { "type": "ridge", "from": [-2500, -14000], "to": [-2500, 64000], "heightM": 700, "widthM": 1200 },
+        { "type": "ridge", "from": [6500, -14000], "to": [6500, 64000], "heightM": 480, "widthM": 1500 },
+        { "type": "hill", "at": [0, 46000], "heightM": 320, "radiusM": 1400 }
+      ]
+    },
+    "origin": [36.4, -116.1],
+    "towers": [
+      { "pos": [300, 8000], "heightFt": 400 },
+      { "pos": [-500, 21000], "heightFt": 600 },
+      { "pos": [700, 33000], "heightFt": 350 }
+    ],
+    "homePlate": [0, -10000]
+  },
+  "weather": {
+    "isaDeltaC": 0,
+    "wind": [
+      { "altFt": 0, "dirDeg": 200, "kt": 10 },
+      { "altFt": 5000, "dirDeg": 220, "kt": 20 }
+    ],
+    "gustKt": 6,
+    "clouds": [{ "baseFt": 4500, "topFt": 7000, "cover": 0.7 }],
+    "visibilityKm": 15,
+    "cells": []
+  },
+  "own": { "fuelLb": 12000, "pos": [0, 0], "altFt": 900, "headingDeg": 0, "kcas": 450, "cm": { "chaff": 60, "flares": 60, "decoys": 4 } },
+  "route": [[0, 15000, 900], [400, 30000, 900], [0, 55000, 900]],
+  "red": [],
+  "friendly": [],
+  "triggers": [],
+  "objectives": ["reach_wp3", "no_ground_impact"],
+  "settings": { "falseAlarmPerMin": 0, "gcasAuto": true, "durationS": 600 }
+}

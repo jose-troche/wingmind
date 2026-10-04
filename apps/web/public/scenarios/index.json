@@ -1,0 +1,6 @@
+[
+  { "id": "fam-01", "title": "Familiarization", "ladder": 1 },
+  { "id": "low-level-02", "title": "Low level", "ladder": 2 },
+  { "id": "sam-belt-01", "title": "SAM belt ingress", "ladder": 3 },
+  { "id": "bvr-05", "title": "Beyond-visual-range defense", "ladder": 5 }
+]

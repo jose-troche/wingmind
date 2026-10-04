@@ -1,0 +1,47 @@
+{
+  "id": "sam-belt-01",
+  "title": "SAM belt ingress",
+  "ladder": 3,
+  "description": "Ingress east through layered SAM coverage. One long-range site is in the intel file and silent until cued; another pops up. Use the ridges to mask and ask for a route around.",
+  "theater": {
+    "terrain": {
+      "id": "ridges-01",
+      "seed": 303,
+      "bounds": [-20000, -40000, 160000, 40000],
+      "spacingM": 128,
+      "baseM": 300,
+      "roughnessM": 140,
+      "features": [
+        { "type": "ridge", "from": [50000, -38000], "to": [52000, 2000], "heightM": 1100, "widthM": 3000 },
+        { "type": "ridge", "from": [53000, 9000], "to": [55000, 38000], "heightM": 1000, "widthM": 3000 },
+        { "type": "ridge", "from": [88000, -30000], "to": [95000, 30000], "heightM": 800, "widthM": 2500 },
+        { "type": "plateau", "at": [130000, 0], "heightM": 250, "radiusM": 12000 }
+      ]
+    },
+    "origin": [36.2, -115.9],
+    "towers": [],
+    "homePlate": [0, 0]
+  },
+  "weather": {
+    "isaDeltaC": 0,
+    "wind": [
+      { "altFt": 0, "dirDeg": 270, "kt": 10 },
+      { "altFt": 20000, "dirDeg": 270, "kt": 25 }
+    ],
+    "gustKt": 3,
+    "clouds": [{ "baseFt": 8000, "topFt": 14000, "cover": 0.6 }],
+    "visibilityKm": 30,
+    "cells": []
+  },
+  "own": { "fuelLb": 18000, "pos": [0, 0], "altFt": 6000, "headingDeg": 90, "kcas": 450, "cm": { "chaff": 60, "flares": 60, "decoys": 4 } },
+  "route": [[40000, 5000, 6000], [90000, -12000, 6000], [140000, 0, 6000]],
+  "red": [
+    { "id": "sam-1", "type": "sam_long", "pos": [70000, 8000], "emcon": "silent_until_cued", "intel": true },
+    { "id": "sam-2", "type": "sam_long", "pos": [112000, -20000], "emcon": "active" },
+    { "id": "shorad-1", "type": "sam_short", "pos": [131000, 2500], "intel": true, "active": true }
+  ],
+  "friendly": [],
+  "triggers": [{ "at": { "t": 420 }, "do": "fault", "target": "engine_left", "kind": "oil_pressure" }],
+  "objectives": ["reach_wp3", "rtb_above_bingo"],
+  "settings": { "falseAlarmPerMin": 0.05, "gcasAuto": true, "durationS": 1200 }
+}
