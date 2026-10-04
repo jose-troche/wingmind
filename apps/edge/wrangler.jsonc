@@ -1,0 +1,49 @@
+// WINGMIND edge Worker: serves the console as static assets and the /api routes.
+// Free plan only: SQLite-backed Durable Objects, Workers AI free pool, D1.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wingmind",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "../web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "ai": { "binding": "AI" },
+  "d1_databases": [
+    // Replace with the id printed by `npx wrangler d1 create wingmind`.
+    { "binding": "DB", "database_name": "wingmind", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }
+  ],
+  // R2 must be enabled once in the Cloudflare dashboard before this binding works.
+  // Uncomment after `npx wrangler r2 bucket create wingmind-replays`; the Worker
+  // skips replay upload while the binding is absent.
+  // "r2_buckets": [{ "binding": "REPLAYS", "bucket_name": "wingmind-replays" }],
+  "durable_objects": {
+    "bindings": [
+      { "name": "BUDGET", "class_name": "BudgetDO" },
+      { "name": "SESSION", "class_name": "SessionDO" }
+    ]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["BudgetDO", "SessionDO"] }],
+  "observability": { "enabled": true, "head_sampling_rate": 0.2 },
+  "vars": { "NEURON_CEILING": "9000", "SESSION_NEURON_CAP": "300", "MOCK_AI": "0" },
+
+  "env": {
+    // Local end-to-end and edge tests: no Workers AI binding, so nothing needs a
+    // Cloudflare login and no test can spend a neuron.
+    "e2e": {
+      "name": "wingmind-e2e",
+      "d1_databases": [{ "binding": "DB", "database_name": "wingmind", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }],
+      "durable_objects": {
+        "bindings": [
+          { "name": "BUDGET", "class_name": "BudgetDO" },
+          { "name": "SESSION", "class_name": "SessionDO" }
+        ]
+      },
+      "vars": { "NEURON_CEILING": "9000", "SESSION_NEURON_CAP": "300", "MOCK_AI": "1" }
+    }
+  }
+}

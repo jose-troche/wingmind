@@ -1,0 +1,26 @@
+{
+  "name": "edge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 migrations apply wingmind --local",
+    "db:remote": "wrangler d1 migrations apply wingmind --remote",
+    "types": "wrangler types --env-interface CloudflareEnv",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@wingmind/nl": "workspace:*",
+    "@wingmind/shared": "workspace:*",
+    "hono": "^4.13.13"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "@cloudflare/workers-types": "^5.20261004.1",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.147.0"
+  }
+}
