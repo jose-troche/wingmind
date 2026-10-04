@@ -1,0 +1,33 @@
+{
+  "name": "wingmind",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.8.1",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "pnpm --filter edge db:local && concurrently -k -n edge,web \"pnpm --filter edge dev\" \"pnpm --filter web dev\"",
+    "build": "pnpm --filter web build",
+    "deploy": "pnpm --filter web build && pnpm --filter edge db:remote && pnpm --filter edge deploy",
+    "typecheck": "pnpm -r --parallel typecheck && tsc -p tests/tsconfig.json --noEmit && tsc -p tools/tsconfig.json --noEmit",
+    "test": "vitest run --project packages && pnpm --filter edge test",
+    "test:scenarios": "vitest run --project scenarios",
+    "test:e2e": "playwright test -c tests/e2e/playwright.config.ts",
+    "test:e2e:ui": "playwright test -c tests/e2e/playwright.config.ts --ui",
+    "gen:voice": "tsx tools/gen-voice.ts",
+    "gen:terrain": "tsx tools/gen-terrain.ts",
+    "gen:fixtures": "tsx tools/gen-fixtures.ts"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^24.0.0",
+    "@wingmind/agents": "workspace:*",
+    "@wingmind/nl": "workspace:*",
+    "@wingmind/shared": "workspace:*",
+    "@wingmind/sim-core": "workspace:*",
+    "concurrently": "^9.2.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  }
+}
