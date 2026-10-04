@@ -1,0 +1,36 @@
+# Regenerate the MeloTTS clip library only when the alert vocabulary changes.
+# Clips are committed, so normal builds spend no neurons (implementation 9.3).
+name: voice clips
+on:
+  push:
+    branches: [main]
+    paths: ['packages/nl/src/templates.ts']
+  workflow_dispatch:
+jobs:
+  clips:
+    runs-on: ubuntu-latest
+    permissions: { contents: write }
+    env:
+      HAS_CF_TOKEN: ${{ secrets.CF_API_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+        if: env.HAS_CF_TOKEN == 'true'
+      - uses: pnpm/action-setup@v4
+        if: env.HAS_CF_TOKEN == 'true'
+      - uses: actions/setup-node@v4
+        if: env.HAS_CF_TOKEN == 'true'
+        with: { node-version: 22, cache: pnpm }
+      - if: env.HAS_CF_TOKEN == 'true'
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg && pnpm install --frozen-lockfile
+      - if: env.HAS_CF_TOKEN == 'true'
+        run: pnpm gen:voice
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      - name: Commit clips
+        if: env.HAS_CF_TOKEN == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add apps/web/public/voice
+          if ! git diff --cached --quiet; then git commit -m "Regenerate voice clips" && git push; fi

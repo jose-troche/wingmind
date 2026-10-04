@@ -1,0 +1,35 @@
+# .github/workflows/deploy.yml
+name: deploy
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  ship:
+    runs-on: ubuntu-latest
+    env:
+      HAS_CF_TOKEN: ${{ secrets.CF_API_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck && pnpm test && pnpm test:scenarios
+      - run: pnpm --filter web build
+      - name: Preview on pull requests
+        if: github.event_name == 'pull_request' && env.HAS_CF_TOKEN == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          workingDirectory: apps/edge
+          command: versions upload
+      - name: Deploy main
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && env.HAS_CF_TOKEN == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          workingDirectory: apps/edge
+          preCommands: npx wrangler d1 migrations apply wingmind --remote
+          command: deploy
