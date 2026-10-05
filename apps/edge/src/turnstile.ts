@@ -1,6 +1,5 @@
 // Turnstile check on session start (implementation 7.1). Enabled when the
-// TURNSTILE_SECRET secret is set; see README for why production leaves it off
-// while the console needs cross-origin isolation.
+// TURNSTILE_SECRET secret is set (production); the e2e environment leaves it unset.
 
 export async function verifyTurnstile(secret: string, token: string, remoteIp: string): Promise<boolean> {
   if (!token) return false;

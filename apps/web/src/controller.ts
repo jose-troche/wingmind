@@ -4,6 +4,7 @@ import * as api from './api';
 import { AlertEngine } from './audio/engine';
 import { SimClient } from './sim-client';
 import { pushLogEntry, pushTranscript, ui } from './store';
+import { takeToken } from './turnstile';
 import { interpret, statusSummary } from './voice/interpret';
 import { PushToTalk } from './voice/speech';
 
@@ -150,7 +151,7 @@ export async function startSortie(id: string, seed = Math.floor(Math.random() * 
   ui.set({ sessionId: local });
   await client.load(scenario, seed, { paused: Boolean(opts.paused), sessionId: local, verbosity: ui.get().verbosity });
   // the session (Turnstile-gated when configured) only matters for LLM routes; play never waits on it
-  void api.startSession(id).then(sid => {
+  void takeToken().then(t => api.startSession(id, t)).then(sid => {
     if (sid) { ui.set({ sessionId: sid }); client.setSession(sid); }
   });
   void refreshBudget();

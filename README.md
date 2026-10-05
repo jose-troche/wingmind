@@ -107,7 +107,7 @@ npx wrangler d1 migrations apply wingmind --remote
 Optional extras:
 
 - **Replays (R2).** R2 must be enabled once in the Cloudflare dashboard (*R2 > Enable*). Then run `npx wrangler r2 bucket create wingmind-replays`, uncomment the `r2_buckets` block in `wrangler.jsonc`, and add a 30-day expiration lifecycle rule. Without the binding, the Worker saves sorties and debriefs but skips replay upload.
-- **Turnstile.** Run `npx wrangler secret put TURNSTILE_SECRET` and build the web app with a site key. This is off by default; see *Deviations*.
+- **Turnstile.** On in production: the public site key is in `apps/web/.env.production` (`VITE_TURNSTILE_SITEKEY`) and the Worker secret is `TURNSTILE_SECRET` (`npx wrangler secret put TURNSTILE_SECRET`). The widget renders only when Cloudflare needs a click, and play never waits on it: without a valid token the session is refused and only voice queries are unavailable. Test-hook builds skip the widget, and the e2e Worker has no secret.
 - **Voice clips.** Run `pnpm gen:voice` once (needs `ffmpeg`). It renders about 180 MeloTTS fragments for well under 100 neurons and writes `apps/web/public/voice/clips.{bin,json}`. Until then, alerts fall back to browser speech synthesis. Captions are always on.
 
 ### Every deploy
@@ -177,7 +177,7 @@ For a faster loop, start `VITE_TEST_HOOKS=1 pnpm --filter web dev` and the e2e W
 | --- | --- | --- |
 | `tools/gen-terrain.ts` ships `terrain/*.bin` tiles | Terrain is generated at load from each scenario's seed and feature list, identically in all three threads; the sim worker transfers the grid to the others. `gen-terrain.ts` writes previews to `tools/out/`. | Saves about 2 MB per theater against the 5 MB first-load budget, and scenarios stay self-contained |
 | Voice clips as individual files | One `clips.bin` of MP3 slices plus a `clips.json` manifest | Two requests instead of about 180; each clip still decodes into its own `AudioBuffer` |
-| Turnstile on session start | Supported server-side and enabled by setting `TURNSTILE_SECRET`; off by default | The Turnstile iframe does not load under `Cross-Origin-Embedder-Policy: require-corp`, which `SharedArrayBuffer` needs. Per-IP, per-session and daily caps still apply |
+| Turnstile on session start | Token requested in the background; the sortie starts without waiting for it | A failed or slow challenge costs only voice queries, never play. Checked Oct 4, 2026: the widget loads and solves under `Cross-Origin-Embedder-Policy: require-corp`, so cross-origin isolation stays on |
 | R2 binding always on | Commented out until R2 is enabled on the account | R2 needs a one-time dashboard opt-in; the Worker checks for the binding |
 | Open question: `llama-3.1-8b-instruct-fast` versus `-fp8-fast` | Both names resolve and answer in JSON mode (checked against the API on Oct 4, 2026). The Worker reads both response shapes (`response` and OpenAI-style `choices`) | Week-1 model check |
 | `wrangler dev --var MOCK_AI:1` for tests | A separate `env.e2e` in `wrangler.jsonc` with no AI binding | Local tests need no Cloudflare login |
