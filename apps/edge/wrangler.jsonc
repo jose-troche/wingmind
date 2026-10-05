@@ -14,8 +14,7 @@
   },
   "ai": { "binding": "AI" },
   "d1_databases": [
-    // Replace with the id printed by `npx wrangler d1 create wingmind`.
-    { "binding": "DB", "database_name": "wingmind", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }
+    { "binding": "DB", "database_name": "wingmind", "database_id": "f35f2b73-741d-4eaf-ae3e-904dc65a03c0", "migrations_dir": "migrations" }
   ],
   // R2 must be enabled once in the Cloudflare dashboard before this binding works.
   // Uncomment after `npx wrangler r2 bucket create wingmind-replays`; the Worker
@@ -36,7 +35,7 @@
     // Cloudflare login and no test can spend a neuron.
     "e2e": {
       "name": "wingmind-e2e",
-      "d1_databases": [{ "binding": "DB", "database_name": "wingmind", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }],
+      "d1_databases": [{ "binding": "DB", "database_name": "wingmind", "database_id": "f35f2b73-741d-4eaf-ae3e-904dc65a03c0", "migrations_dir": "migrations" }],
       "durable_objects": {
         "bindings": [
           { "name": "BUDGET", "class_name": "BudgetDO" },
